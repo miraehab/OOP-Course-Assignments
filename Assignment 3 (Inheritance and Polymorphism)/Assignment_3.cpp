@@ -8,16 +8,18 @@ class FloatArray{
     protected:
         float * arr;
         int size;
+        int index;
     public:
         /* Parameterized Constructor */
         FloatArray(int size){
+            index = 0;
             this->size = size;
             arr = new float[size];
         }
 
-        virtual void add();
+        virtual void add(float a);
         friend ostream& operator << (ostream&, const FloatArray&);
-        friend istream& operator >> (istream&, const FloatArray&);
+        friend istream& operator >> (istream&, FloatArray&);
 
         /* Destructor */
         ~FloatArray(){
@@ -26,19 +28,28 @@ class FloatArray{
 };
 
 //adds a float at the end of the array
-void FloatArray:: add(){
-
+void FloatArray:: add(float a){
+    arr[index] = a;
+    index++;
 }
 
 //to write the array to a file (ofstream)
 ostream& operator << (ostream& os, const FloatArray& obj){
-
+    os<<obj.size<<'|'<<'\t';
+    for(int i = 0; i<obj.size; i++){
+        os<<obj.arr[i]<<'\t';
+    }
+    os<<endl;
     return os;
 }
 
 //to read the array elements from the file (ifstream) and add them to the array.
-istream& operator >> (istream& is, const FloatArray& obj){
-
+istream& operator >> (istream& is, FloatArray& obj){
+    float tmp;
+    for(int i = 0; i<obj.size; i++){
+        is>>tmp;
+        obj.add(tmp);
+    }
     return is;
 }
 
@@ -51,12 +62,12 @@ class SortedArray : public FloatArray{
             this->size = size;
         }
 
-        virtual void add();
+        virtual void add(float a);
 };
 
 //adds a float at the right place in the array such that the array remains sorted with every add.
 //Note: Don’t add to the array then sort but rather add in the right place.
-void SortedArray :: add(){
+void SortedArray :: add(float a){
 
 }
 
@@ -69,11 +80,11 @@ class FrontArray : public FloatArray{
             this->size = size;
         }
 
-        void add();
+        void add(float a);
 };
 
 //adds a float at the front of the array.
-void FrontArray :: add(){
+void FrontArray :: add(float a){
 
 }
 
@@ -85,12 +96,12 @@ class PositiveArray : public SortedArray{
         PositiveArray(int size):SortedArray(size){
             this->size = size;
         }
-        void add();
+        void add(float a);
 };
 
 //adds a float to the array only if it’s a positive number. 
 //It then uses the add method of SortedArray.
-void PositiveArray :: add(){
+void PositiveArray :: add(float a){
 
 }
 
@@ -102,12 +113,12 @@ class NegativeArray : public SortedArray{
         NegativeArray(int size):SortedArray(size){
             this->size = size;
         }
-        void add();
+        void add(float a);
 };
 
 //adds a float to the array only if it’s a negative number. 
 //It then uses the add method of SortedArray.
-void NegativeArray :: add(){
+void NegativeArray :: add(float a){
 
 }
 
@@ -119,8 +130,8 @@ int main(){
     getline(cin, in_name);
     cout<<"Enter the name of the output file: ";
     getline(cin, out_name);
-    istream in(string(in_name));
-    ostream out(string(out_name));
+    ifstream in(in_name);
+    ofstream out(out_name);
     
     //You should use polymorphism in your code by creating an array of FloatArray* in main. 
     FloatArray ** arr = new FloatArray*[10];
