@@ -8,11 +8,11 @@ class FloatArray{
     protected:
         float * arr;
         int size;
-        int numb_of_elements;
+        int num_of_elements;
     public:
         /* Parameterized Constructor */
         FloatArray(int size){
-            numb_of_elements = 0;
+            num_of_elements = 0;
             this->size = size;
             arr = new float[size];
         }
@@ -29,7 +29,7 @@ class FloatArray{
 
 //adds a float at the end of the array
 void FloatArray:: add(float a){
-    arr[numb_of_elements++] = a;
+    arr[num_of_elements++] = a;
 }
 
 //to write the array to a file (ofstream)
@@ -67,7 +67,7 @@ class SortedArray : public FloatArray{
 //adds a float at the right place in the array such that the array remains sorted with every add.
 //Note: Don’t add to the array then sort but rather add in the right place.
 void SortedArray :: add(float a){
-
+    
 }
 
 
@@ -84,7 +84,13 @@ class FrontArray : public FloatArray{
 
 //adds a float at the front of the array.
 void FrontArray :: add(float a){
-
+    num_of_elements++;
+    //shifting all the numbers one step to the right so the first place will be empty.
+    for(int i = num_of_elements-1; i>=0; i--){
+        arr[i+1] = arr[i];
+    }
+    //assign the first place with the number to be added.
+    arr[0] = a;
 }
 
 
@@ -131,6 +137,17 @@ int main(){
     getline(cin, out_name);
     ifstream in(in_name);
     ofstream out(out_name);
+
+    /* Testing:
+    ifstream in("input.txt");
+    ofstream out("output.txt");
+    int size;
+    in>>size;
+    FloatArray s(size);
+    //FrontArray s(size);
+    in>>s;
+    out<<s; 
+    */
     
     //You should use polymorphism in your code by creating an array of FloatArray* in main. 
     FloatArray ** arr = new FloatArray*[10];
