@@ -8,11 +8,11 @@ class FloatArray{
     protected:
         float * arr;
         int size;
-        int index;
+        int numb_of_elements;
     public:
         /* Parameterized Constructor */
         FloatArray(int size){
-            index = 0;
+            numb_of_elements = 0;
             this->size = size;
             arr = new float[size];
         }
@@ -29,8 +29,7 @@ class FloatArray{
 
 //adds a float at the end of the array
 void FloatArray:: add(float a){
-    arr[index] = a;
-    index++;
+    arr[numb_of_elements++] = a;
 }
 
 //to write the array to a file (ofstream)
