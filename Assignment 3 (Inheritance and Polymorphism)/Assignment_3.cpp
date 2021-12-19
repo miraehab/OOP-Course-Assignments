@@ -124,6 +124,9 @@ void FrontArray :: add(float a){
 
 //Inherits from SortedArray
 class PositiveArray : public SortedArray{
+    private:
+        int num_positive = 0;
+        int cnt = 0;
     public:
         /* Parameterized Constructor */
         PositiveArray(int size):SortedArray(size){
@@ -135,10 +138,17 @@ class PositiveArray : public SortedArray{
 //adds a float to the array only if it’s a positive number.
 //It then uses the add method of SortedArray.
 void PositiveArray :: add(float a){
+    //To track the number of times entered in the add methode of the PositiveArray 
+    //to update the size of the array with the number of positive numbers added.
+    cnt++;
+
     //check if the float is positive number.
     if(a>0){
         SortedArray::add(a);
+        num_positive++;
     }
+    //update the size of the array after checking all the numbers.
+    if(cnt == size) size = num_positive;
 }
 
 
@@ -146,6 +156,9 @@ void PositiveArray :: add(float a){
 
 //Inherits from SortedArray
 class NegativeArray : public SortedArray{
+    private:
+        int num_negative = 0;
+        int cnt = 0;
     public:
         /* Parameterized Constructor */
         NegativeArray(int size):SortedArray(size){
@@ -157,10 +170,17 @@ class NegativeArray : public SortedArray{
 //adds a float to the array only if it’s a negative number.
 //It then uses the add method of SortedArray.
 void NegativeArray :: add(float a){
+    //To track the number of times entered in the add methode of the NegativeArray 
+    //to update the size of the array with the number of negative numbers added.
+    cnt++;
+
     //check if the float is negative number.
     if(a<0){
         SortedArray::add(a);
+        num_negative++;
     }
+    //update the size of the array after checking all the numbers.
+    if(cnt == size) size = num_negative;
 }
 
 
