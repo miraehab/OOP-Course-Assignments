@@ -83,6 +83,7 @@ void SortedArray :: add(float a){
             for(int j=num_of_elements;j>i;j--){
                 arr[j]=arr[j-1];
             }
+            //assign the float to the right place.
             arr[i]=a;
             num_of_elements++;
             break;
@@ -134,7 +135,10 @@ class PositiveArray : public SortedArray{
 //adds a float to the array only if it’s a positive number.
 //It then uses the add method of SortedArray.
 void PositiveArray :: add(float a){
-
+    //check if the float is positive number.
+    if(a>0){
+        SortedArray::add(a);
+    }
 }
 
 
@@ -153,7 +157,10 @@ class NegativeArray : public SortedArray{
 //adds a float to the array only if it’s a negative number.
 //It then uses the add method of SortedArray.
 void NegativeArray :: add(float a){
-
+    //check if the float is negative number.
+    if(a<0){
+        SortedArray::add(a);
+    }
 }
 
 
