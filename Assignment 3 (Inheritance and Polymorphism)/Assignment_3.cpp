@@ -4,6 +4,9 @@
 
 using namespace std;
 
+
+/*********************************** FloatArray ***********************************/
+
 class FloatArray{
     protected:
         float * arr;
@@ -53,6 +56,8 @@ istream& operator >> (istream& is, FloatArray& obj){
 }
 
 
+/*********************************** SortedArray ***********************************/
+
 //Inherits from FloatArray.
 class SortedArray : public FloatArray{
     public:
@@ -70,6 +75,8 @@ void SortedArray :: add(float a){
     
 }
 
+
+/*********************************** FrontArray ***********************************/
 
 //Inherits from FloatArray
 class FrontArray : public FloatArray{
@@ -94,6 +101,8 @@ void FrontArray :: add(float a){
 }
 
 
+/*********************************** PositiveArray ***********************************/
+
 //Inherits from SortedArray
 class PositiveArray : public SortedArray{
     public:
@@ -111,6 +120,8 @@ void PositiveArray :: add(float a){
 }
 
 
+/*********************************** NegativeArray ***********************************/
+
 //Inherits from SortedArray
 class NegativeArray : public SortedArray{
     public:
@@ -127,38 +138,50 @@ void NegativeArray :: add(float a){
 
 }
 
+
 int main(){
-    //TODO
-    //The only input to your program is the names of the input txt file and output txt file name.
+
+    //The only input to my program is the names of the input txt file and output txt file name.
     string in_name, out_name;
     cout<<"Enter the name of the input file: ";
     getline(cin, in_name);
     cout<<"Enter the name of the output file: ";
     getline(cin, out_name);
     ifstream in(in_name);
-    ofstream out(out_name);
-
-    /* Testing:
-    ifstream in("input.txt");
-    ofstream out("output.txt");
-    int size;
-    in>>size;
-    FloatArray s(size);
-    //FrontArray s(size);
-    in>>s;
-    out<<s; 
-    */
+    ofstream out(out_name, ios::app);
     
-    //You should use polymorphism in your code by creating an array of FloatArray* in main. 
+    //use polymorphism by creating an array of FloatArray* in main. 
     FloatArray ** arr = new FloatArray*[10];
 
-    /* Read from the txt file and allocate your objects according to the type of array 
+    /* Read from the txt file and allocate objects according to the type of array 
     and fill the arrays using the extraction operator >>. */
+    string type;
+    int size, index = 0;
+    if(!in.fail()){
+        while(!in.eof()){
+            in>>type;
+            in>>size;
+            if(type == "Array") arr[index] = new FloatArray(size);
+            else if(type == "Sorted") arr[index] = new SortedArray(size);
+            else if(type == "Front") arr[index] = new FrontArray(size);
+            else if(type == "Positive") arr[index] = new PositiveArray(size);
+            else if(type == "Negative") arr[index] = new NegativeArray(size);
+            in>>*(arr[index]);
+            index++;
+        }
+    }
 
     /* After finishing reading the file, 
-    you should write your arrays to another text file using the insertion operator<<. */
+    writing the arrays to another text file using the insertion operator<<. */
+    if(!out.fail()){
+        for(int i = 0; i<10; i++){
+            out<<*(arr[i]);
+        }
+    }
 
-    //Don’t forgot to deallocate by deleting your objects in main after finishing.
+    //Deallocate by deleting objects in main after finishing.
+    for(int i = 0; i<10; i++) delete arr[i];
+    delete [] arr;
 
     return 0;
 }
