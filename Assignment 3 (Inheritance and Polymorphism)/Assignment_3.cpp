@@ -72,7 +72,25 @@ class SortedArray : public FloatArray{
 //adds a float at the right place in the array such that the array remains sorted with every add.
 //Note: Don’t add to the array then sort but rather add in the right place.
 void SortedArray :: add(float a){
-    
+    //if there is no elements in the array add the float directly.
+    if(num_of_elements==0){
+        arr[num_of_elements++] = a;
+    }
+    for(int i=0;i<num_of_elements;i++){
+        //find the right position of the float in the array.
+        if(a<arr[i]){
+            //shifting all the numbers one step to the right so the float is added in the right place.
+            for(int j=num_of_elements;j>i;j--){
+                arr[j]=arr[j-1];
+            }
+            arr[i]=a;
+            num_of_elements++;
+            break;
+        //if i reached the end of the array and the float is still not added add it to the end of the array.
+        }else if(a>arr[i]&&i==num_of_elements-1){
+            arr[num_of_elements++] = a;
+        }
+    }
 }
 
 
@@ -113,7 +131,7 @@ class PositiveArray : public SortedArray{
         void add(float a);
 };
 
-//adds a float to the array only if it’s a positive number. 
+//adds a float to the array only if it’s a positive number.
 //It then uses the add method of SortedArray.
 void PositiveArray :: add(float a){
 
@@ -132,7 +150,7 @@ class NegativeArray : public SortedArray{
         void add(float a);
 };
 
-//adds a float to the array only if it’s a negative number. 
+//adds a float to the array only if it’s a negative number.
 //It then uses the add method of SortedArray.
 void NegativeArray :: add(float a){
 
@@ -149,11 +167,11 @@ int main(){
     getline(cin, out_name);
     ifstream in(in_name);
     ofstream out(out_name, ios::app);
-    
-    //use polymorphism by creating an array of FloatArray* in main. 
+
+    //use polymorphism by creating an array of FloatArray* in main.
     FloatArray ** arr = new FloatArray*[10];
 
-    /* Read from the txt file and allocate objects according to the type of array 
+    /* Read from the txt file and allocate objects according to the type of array
     and fill the arrays using the extraction operator >>. */
     string type;
     int size, index = 0;
@@ -171,7 +189,7 @@ int main(){
         }
     }
 
-    /* After finishing reading the file, 
+    /* After finishing reading the file,
     writing the arrays to another text file using the insertion operator<<. */
     if(!out.fail()){
         for(int i = 0; i<10; i++){
