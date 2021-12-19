@@ -127,10 +127,12 @@ class PositiveArray : public SortedArray{
     private:
         int num_positive = 0;
         int cnt = 0;
+        float *pos;
     public:
         /* Parameterized Constructor */
         PositiveArray(int size):SortedArray(size){
             this->size = size;
+            pos = new float[size];
         }
         void add(float a);
 };
@@ -138,17 +140,27 @@ class PositiveArray : public SortedArray{
 //adds a float to the array only if it’s a positive number.
 //It then uses the add method of SortedArray.
 void PositiveArray :: add(float a){
-    //To track the number of times entered in the add methode of the PositiveArray 
+    //To track the number of times entered in the add method of the PositiveArray
     //to update the size of the array with the number of positive numbers added.
     cnt++;
 
-    //check if the float is positive number.
+    //check if the float is positive number then add it to the array of positive numbers.
     if(a>0){
-        SortedArray::add(a);
+        pos[num_positive] = a;
         num_positive++;
     }
     //update the size of the array after checking all the numbers.
-    if(cnt == size) size = num_positive;
+    if(cnt == size){
+        //deletes the old array and allocates a new one with size of positive numbers.
+        delete []arr;
+        size = num_positive;
+        arr = new float[size];
+        //copy the numbers from the array of positive numbers to the new allocated array.
+        for(int i=0;i<size;i++){
+            SortedArray::add(pos[i]);
+        }
+        delete []pos;
+    }
 }
 
 
@@ -159,10 +171,12 @@ class NegativeArray : public SortedArray{
     private:
         int num_negative = 0;
         int cnt = 0;
+        float *neg;
     public:
         /* Parameterized Constructor */
         NegativeArray(int size):SortedArray(size){
             this->size = size;
+            neg = new float[size];
         }
         void add(float a);
 };
@@ -170,17 +184,27 @@ class NegativeArray : public SortedArray{
 //adds a float to the array only if it’s a negative number.
 //It then uses the add method of SortedArray.
 void NegativeArray :: add(float a){
-    //To track the number of times entered in the add methode of the NegativeArray 
+    //To track the number of times entered in the add method of the NegativeArray
     //to update the size of the array with the number of negative numbers added.
     cnt++;
 
-    //check if the float is negative number.
+    //check if the float is negative number then add it to the array of negative numbers.
     if(a<0){
-        SortedArray::add(a);
+        neg[num_negative] = a;
         num_negative++;
     }
     //update the size of the array after checking all the numbers.
-    if(cnt == size) size = num_negative;
+    if(cnt == size){
+        //deletes the old array and allocates a new one with size of negative numbers.
+        delete []arr;
+        size = num_negative;
+        arr = new float[size];
+        //copy the numbers from the array of negative numbers to the new allocated array.
+        for(int i=0;i<size;i++){
+            SortedArray::add(neg[i]);
+        }
+        delete []neg;
+    }
 }
 
 
