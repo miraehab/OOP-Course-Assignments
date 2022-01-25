@@ -70,7 +70,6 @@ class SortedArray : public FloatArray{
 };
 
 //adds a float at the right place in the array such that the array remains sorted with every add.
-//Note: Don’t add to the array then sort but rather add in the right place.
 void SortedArray :: add(float a){
     //if there is no elements in the array add the float directly.
     if(num_of_elements==0){
